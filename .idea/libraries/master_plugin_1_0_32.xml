@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="master-plugin-1.0.32">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/master-plugin/1.0.32/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/master-plugin/1.0.32/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sequencing/master-plugin/1.0.32/89ec2a053ff78293bdf2d0eb934f1ce4d4b5e8b6/master-plugin-1.0.32-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

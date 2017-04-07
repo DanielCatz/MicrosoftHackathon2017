@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="file-selector-1.0.30">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/file-selector/1.0.30/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/file-selector/1.0.30/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sequencing/file-selector/1.0.30/bcb6c9987a1e81561011e46b8d10ea50da4244b0/file-selector-1.0.30-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

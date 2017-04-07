@@ -3,7 +3,6 @@ package com.sequencing.sample;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.Toast;
 
 import com.sequencing.androidoauth.core.OAuth2Parameters;
 import com.sequencing.appchains.AndroidAppChainsImpl;
-import com.sequencing.appchains.AppChains;
 import com.sequencing.appchains.DefaultAppChainsImpl;
 import com.sequencing.appchains.DefaultAppChainsImpl.Report;
 import com.sequencing.appchains.DefaultAppChainsImpl.Result;
@@ -22,12 +20,18 @@ import com.sequencing.appchains.DefaultAppChainsImpl.TextResultValue;
 import com.sequencing.fileselector.FileEntity;
 import com.sequencing.fileselector.core.ISQFileCallback;
 import com.sequencing.fileselector.core.SQUIFileSelectHandler;
+import com.sequencing.sample.models.AccessToken;
+import com.sequencing.sample.models.Business;
+import com.sequencing.sample.models.Businesses;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Handler;
-import java.util.logging.LogRecord;
+
+import rx.Observable;
+import rx.Observer;
+import rx.Subscription;
 
 public class TestAppChainsActivity extends AppCompatActivity implements ISQFileCallback, View.OnClickListener {
 
@@ -48,7 +52,11 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
 
     private AsyncTaskChain9 asyncTaskChain9;
     private AsyncTaskChain88 asyncTaskChain88;
+    private AsyncTaskGetYelpToken yelpTask;
     private AsyncTaskBulkChains asyncTaskBulkChains;
+    private String mAccessToken;
+    private Subscription subscription;
+    private String theThing="Nothing yet";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +112,23 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
                 tvResult.setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "Computing result...", Toast.LENGTH_LONG).show();
 
-                asyncTaskChain88 = new AsyncTaskChain88();
-                asyncTaskChain88.execute();
+//                asyncTaskChain88 = new AsyncTaskChain88();
+//                asyncTaskChain88.execute();
+
+//               getSaltSensitivity();
+//                yelpTask = new AsyncTaskGetYelpToken();
+//                yelpTask.execute();
+
+                String credentials,cid,secret;
+                credentials="client_credentials";
+                cid="eHbXciUvKAI3NrMiDB-PbQ";
+                secret="nM4ZrDvDXvGYrP41e6NouiuwbHIiIFh5lXGn72mcSOhnAZUp1ZC9v420e8cuPIne";
+//          RestClient.getInstance().requestYelpToken(credentials,id,secret);
+
+                if (theThing.equals("Nothing yet")) {
+                    getYelpToken(credentials, cid, secret, "apple");
+                }else
+                    getYelpBusinesses(theThing,"apple");
                 break;
 
             case R.id.btnMelanomaRisk:
@@ -124,6 +147,50 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
                 break;
         }
     }
+
+public String getChain(String chainNumber,String chainTitle){
+    AndroidAppChainsImpl chains = new AndroidAppChainsImpl(OAuth2Parameters.getInstance().getOauth().getToken().getAccessToken(), "api.sequencing.com");
+    Report resultChain;
+
+    try {
+        resultChain = chains.getReport("StartApp", chainNumber, entity.getId());
+    } catch (Exception e) {
+        Toast.makeText(this, "Failure to get "+chainTitle+" risk, please try again", Toast.LENGTH_SHORT).show();
+        return null;
+    }
+
+    if (resultChain.isSucceeded() == false) {
+        Toast.makeText(this, "Failure to get "+chainTitle+" risk, please try again", Toast.LENGTH_SHORT).show();
+        return null;
+    }
+
+    for (Result r : resultChain.getResults()) {
+        ResultType type = r.getValue().getType();
+
+        if (type == ResultType.TEXT) {
+            TextResultValue v = (TextResultValue) r.getValue();
+            Log.i("it be",String.format(" -> text result type %s = %s", r.getName(), v.getData()));
+            if (r.getName().equals("RiskDescription"))
+                return v.getData();
+        }
+    }
+
+    return null;
+
+}
+
+    private String getSaltSensitivity(){
+        getChain("chain 83","High Blood Pressure");
+
+
+        return null;
+    }
+
+    private String getHypertension(){
+        return null;
+    }
+
+
 
     private boolean hasVitD() {
         AndroidAppChainsImpl chains = new AndroidAppChainsImpl(OAuth2Parameters.getInstance().getOauth().getToken().getAccessToken(), "api.sequencing.com");
@@ -159,7 +226,7 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
         Report resultChain9;
 
         try {
-            resultChain9 = chains.getReport("StartApp", "Chain9", entity.getId());
+            resultChain9 = chains.getReport("StartApp", "Chain95", entity.getId());
         } catch (Exception e) {
             Toast.makeText(this, "Failure to get melanoma risk, please try again", Toast.LENGTH_SHORT).show();
             return null;
@@ -172,10 +239,12 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
 
         for (Result r : resultChain9.getResults()) {
             ResultType type = r.getValue().getType();
+
             if (type == ResultType.TEXT) {
                 TextResultValue v = (TextResultValue) r.getValue();
-
-                if (r.getName().equals("RiskDescription"))
+                Log.i("it be",String.format(" -> text result type %s = %s", r.getName(), v.getData()));
+                if (r.getName().equals("RiskDescription")||
+                        r.getName().equals("result"))
                     return v.getData();
             }
         }
@@ -219,7 +288,18 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
 
         @Override
         protected String doInBackground(Void... params) {
-            return getMelanomaRisk();
+            String afflictions = "High blood pressure chain83"+
+                    " Primary Pulmonary Hypertension chain 95"+
+                    "Emphysema chain 71"+
+                    "Heart Attack chain 63"+
+                    "brain aneurysm chain 58";
+
+            getChain("chain83","Name");
+            getChain("chain95","Name");
+            getChain("chain71","Name");
+            getChain("chain63","Name");
+
+            return getChain("chain58","Name");//
         }
 
         @Override
@@ -246,6 +326,25 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
         }
     }
 
+    class AsyncTaskGetYelpToken extends AsyncTask<Void, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            tvResult.setVisibility(View.VISIBLE);
+            if(result)
+                tvResult.setText("There is issue with vitamin D");
+            else
+                tvResult.setText("There is no issue with vitamin D");
+        }
+    }
+
+
     class AsyncTaskBulkChains extends AsyncTask<Void, Void, Map<String, String>> {
 
         @Override
@@ -265,5 +364,62 @@ public class TestAppChainsActivity extends AppCompatActivity implements ISQFileC
             }
 
         }
+    }
+
+
+    public void getYelpToken(String credentials,String id, String secret, final String searchTerm) {
+    Observable<AccessToken> call = (Observable<AccessToken>)
+            RestClient.getInstance().getPreparedObservable(RestClient.getInstance().getYELP_API().getYelpToken(credentials, id, secret), AccessToken.class, false, false);
+    subscription = call.subscribe(new Observer<AccessToken>() {
+                                      @Override
+                                      public void onCompleted() {
+                                          //screen.showToast("Done");
+
+                                      }
+
+                                      @Override
+                                      public void onError(Throwable e) {
+                                          Log.e("THE THING", e.getMessage());
+                                      }
+
+                                      @Override
+                                      public void onNext(AccessToken token) {
+                                        Log.e("THE THING\nOUTPUT", token.getAccessToken());
+                                        theThing = token.getAccessToken();
+                                        getYelpBusinesses( theThing , searchTerm);
+                                      }
+                                  }
+    );
+}
+    public void getYelpBusinesses(String token ,String searchTerm) {
+       String longitude = "-122.201516";
+        String latitude = "47.610150";
+        String authorization = "Bearer "+ token;
+        Observable<Businesses> call = (Observable<Businesses>)
+                RestClient.getInstance().getPreparedObservable(RestClient.getInstance().getYELP_API().getBusinessesWithSearch(searchTerm,latitude,longitude,authorization),Businesses.class, false, false);
+        subscription = call.subscribe(new Observer<Businesses>() {
+                                          @Override
+                                          public void onCompleted() {
+                                              //screen.showToast("Done");
+                                          }
+
+                                          @Override
+                                          public void onError(Throwable e) {
+                                              Log.e("FWOCK", e.getMessage());
+                                          }
+
+                                          @Override
+                                          public void onNext(Businesses businesses) {
+                                              for(Business business : businesses.getBusinesses()){
+                                              Log.i("BUSINESSES",business.getName());
+                                              }
+                                          }
+                                      }
+        );
+    }
+
+    private void buildAssociations(Businesses businesses){
+        HashMap<String,<ArrayList<String>> 
+
     }
 }

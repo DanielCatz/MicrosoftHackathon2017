@@ -29,9 +29,9 @@ public class LoginActivity extends AppCompatActivity implements ISQAuthCallback{
         btnSignInSequencing = (Button) findViewById(R.id.btnSignInSequencing);
 
         AuthenticationParameters parameters = new AuthenticationParameters.ConfigurationBuilder()
-                .withRedirectUri("authapp://Default/Authcallback")
-                .withClientId("oAuth2 Demo ObjectiveC")
-                .withClientSecret("RZw8FcGerU9e1hvS5E-iuMb8j8Qa9cxI-0vfXnVRGaMvMT3TcvJme-Pnmr635IoE434KXAjelp47BcWsCrhk0g")
+                .withRedirectUri("wmw://login")
+                .withClientId("Mooo")
+                .withClientSecret("xaZGQ1Qd3QmfDeO1qbiKI8ypTpSCsUpAkOxCVWfxZfDDPdtfGPben5SVz6XFDUmtmlfLeIM45DEQhChskvwoqw")
                 .build();
 
         ioAuthHandler = new SQUIoAuthHandler(this);

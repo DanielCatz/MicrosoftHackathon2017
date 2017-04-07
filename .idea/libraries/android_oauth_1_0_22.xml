@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="android-oauth-1.0.22">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/android-oauth/1.0.22/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/android-oauth/1.0.22/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.sequencing/android-oauth/1.0.22/jars/libs/org.apache.http.legacy.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.sequencing/android-oauth/1.0.22/37311ee5d06f236f1be9c50a74b7d6b5d23a9aa9/android-oauth-1.0.22-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
